@@ -1,14 +1,14 @@
 import express, { Express, Request, Response } from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+dotenv.config();
 
 import router from './routes';
 
-dotenv.config();
 const app: Express = express();
 const port: number = parseInt(process.env.PORT || '3000', 10);
 
-app.use(morgan('dev '));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

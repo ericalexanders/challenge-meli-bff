@@ -1,23 +1,32 @@
 import { Request, Response } from "express";
 import axios from "axios";
+import dotenv from 'dotenv';
+import { transformItemDetailResponse, transformResponse } from "../utils";
 
-const URL_QUERY = process.env.API_MELI_QUERY
-const URL_ITEMS = process.env.API_MELI_ITEMS
+dotenv.config();
 
-export async function getItems(req: Request, res: Response) {
+const URL_QUERY = process.env.API_MELI_QUERY as string
+const URL_ITEMS = process.env.API_MELI_ITEMS as string
+
+export const getItems: (req: Request, res: Response) => Promise<any> =  async (req, res) => {
   try {
-    const query = req.query.q;
-    if (!query || typeof query !== 'string') {
-      return res.status(400).json({
-        error: 'Query parameter is required and must be a string' 
-      });
-    }
-    
     const { data } = await axios.get(URL_QUERY, {
-      params: { q: query }
+      params: req.query
     });
-    return res.json(data);
+    return res.json(transformResponse(data));
   } catch (error) {
+    console.log("Error", error)
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+export const getItemDetails: (req: Request, res: Response) => Promise<any> = async (req, res) => {
+  try {
+    const { data } = await axios.get(`${URL_ITEMS}/${req.params.id}`);
+    const { data: descData } = await axios.get(`${URL_ITEMS}/${req.params.id}/description`);
+    return res.json(transformItemDetailResponse(data, descData.plain_text));
+  } catch (error) {
+    console.log("Error", error)
     return res.status(500).json({ error: 'Internal server error' });
   }
 }

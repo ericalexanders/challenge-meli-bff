@@ -1,19 +1,8 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
+import { getItems, getItemDetails } from "../controllers/itemsControllers";
 const router = Router();
 
-router.get("/items", (req: Request, res: Response) => {
-  const query = req.query.q;
-  res.send(`Search results for: ${query}`);
-});
-
-router.get("/items/:id", (req: Request, res: Response) => {
-  const { id } = req.params;
-  res.send(`Item details for ID: ${id}`);
-});
-
-router.get("/items/:id/description", (req: Request, res: Response) => {
-  const { id } = req.params;
-  res.send(`Description for item ID: ${id}`);
-});
+router.get("/items", getItems);
+router.get("/items/:id", getItemDetails);
 
 export default router
