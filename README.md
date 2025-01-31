@@ -49,6 +49,7 @@ Correr tests: `npm run test`
 - **Descripción:** Obtiene los detalles de un item específico de Mercado Libre.
 - **Parámetros de ruta:**
   - id (string): El ID del item.
+- **Respuesta exitosa:**
 
   ```json
   {
