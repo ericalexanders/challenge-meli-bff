@@ -1,4 +1,4 @@
-# Mercado Libre Challange (BFF)
+# Mercado Libre Challenge (BFF)
 
 ### Node + Express + Typescript + Nodemon + Jest
 
